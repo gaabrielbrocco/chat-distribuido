@@ -1,6 +1,6 @@
 # Chat Realtime - ZipZop Cruz
 
-Chat em tempo real distribuído usando WebSockets, Node.js e Redis.
+Aplicação de chat em tempo real distribuída, desenvolvida com Node.js, Socket.IO e Redis, que possibilita a comunicação instantânea entre usuários conectados. O sistema garante a sincronização imediata das mensagens e a persistência das últimas conversas, assegurando continuidade e disponibilidade no histórico de interações.
 
 ## 🚀 Tecnologias
 
@@ -17,39 +17,45 @@ Chat em tempo real distribuído usando WebSockets, Node.js e Redis.
 
 ## 🔧 Instalação
 
-1. **Clone o repositório:**
-bash
+**1. Clone o repositório:**
+```bash
 git clone <seu-repositorio>
 cd chat-realtime
+```
 
-
-2. **Instale as dependências:**
+**2. Instale as dependências:**
+```bash
 bash
 npm install
+```
 
-
-3. **Suba o Redis via Docker:**
+**3. Suba o Redis via Docker:**
+```bash
 docker run -d --name redis -p 6379:6379 redis
+```
 
-
-4. **Inicie o Redis:**
+**4. Inicie o Redis:**
+```bash
 bash
 redis-server
+```
 
-
-6. **Inicie o servidor:**
+**6. Inicie o servidor:**
+```bash
 bash
 npm start
 node server.js
+```
 
-
-8. **Acesse no navegador:**
+**8. Acesse no navegador:**
+```bash
 http://localhost:3000
+```
 
-
-9. **Para limpar os dados:** 
+**9. Para limpar os dados:** 
+```bash
 redis-cli del chat:messages
-
+```
 
 ## 📱 Funcionalidades
 
@@ -69,20 +75,20 @@ redis-cli del chat:messages
 
 ## 📦 Estrutura do Projeto
 
-
+```bash
 chat-realtime/
 ├── server.js           # Servidor Node.js
 ├── public/
 │   └── index.html     # Interface do chat
 ├── package.json
 └── README.md
-
+```
 
 ## 👥 Autores
 
-Bruno Pasquetti - 1134141
-Gabriel Brocco - 1135058
-Pedro H. De Bortoli - 1129494
+* **Bruno da Motta Pasquetti** - 1334141  
+* **Gabriel Brocco de Oliveira** - 1135058  
+* **Pedro Henrique De Bortoli** - 1129494  
 
 
 ## 📄 Licença
