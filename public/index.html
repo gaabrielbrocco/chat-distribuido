@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Distribuído</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #000000;
+        margin: 0;
+        padding: 10px;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      h1 {
+        background-color: #007f70;
+        color: white;
+        padding: 15px;
+        width: 100%;
+        max-width: 800px;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+        margin: 0;
+        font-size: clamp(1.2rem, 5vw, 1.5rem);
+      }
+
+      #messages {
+        width: 100%;
+        max-width: 800px;
+        flex: 1;
+        background-color: #575757;
+        overflow-y: scroll;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      #input {
+        width: 100%;
+        max-width: 800px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 0 0 10px 10px;
+        font-size: 16px;
+      }
+
+      .message {
+        display: flex;
+        margin: 5px 0;
+      }
+
+      .message-bubble {
+        max-width: 75%;
+        padding: 10px 15px;
+        border-radius: 10px;
+        word-wrap: break-word;
+      }
+
+      .message.sent {
+        justify-content: flex-end;
+      }
+
+      .message.sent .message-bubble {
+        background-color: #dcf8c6;
+        border-radius: 10px 0 10px 10px;
+      }
+
+      .message.received {
+        justify-content: flex-start;
+      }
+
+      .message.received .message-bubble {
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 0 10px 10px 10px;
+      }
+
+      .message-username {
+        font-weight: bold;
+        font-size: 12px;
+        color: #075e54;
+        margin-bottom: 3px;
+      }
+
+      .message-time {
+        font-size: 10px;
+        color: #999;
+        margin-top: 3px;
+        text-align: right;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 0;
+        }
+
+        h1 {
+          border-radius: 0;
+          padding: 12px;
+        }
+
+        #messages {
+          padding: 10px;
+          border-radius: 0;
+        }
+
+        #input {
+          border-radius: 0;
+          padding: 12px;
+          font-size: 16px;
+        }
+
+        .message-bubble {
+          max-width: 85%;
+          padding: 8px 12px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .message-bubble {
+          max-width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ZipZop Cruz</h1>
+
+    <div id="messages"></div>
+    <input
+      id="input"
+      type="text"
+      placeholder="Digite sua mensagem..."
+      autofocus
+    />
+
+    <script>
+      const socket = io();
+      const input = document.getElementById("input");
+      const messages = document.getElementById("messages");
+
+      const username = prompt("Digite seu nome:");
+
+      socket.emit("register", username);
+
+      socket.on("history", (history) => {
+        history.forEach((msg) => addMessage(msg));
+      });
+
+      socket.on("message", (msg) => addMessage(msg));
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && input.value.trim()) {
+          const msg = {
+            user: username,
+            text: input.value.trim(),
+            time: new Date().toLocaleTimeString(),
+          };
+          socket.emit("message", msg);
+          input.value = "";
+        }
+      });
+
+      function addMessage(msg) {
+        if (typeof msg === "string") {
+          const div = document.createElement("div");
+          div.textContent = msg;
+          div.className = "message received";
+          messages.appendChild(div);
+        } else {
+          const messageDiv = document.createElement("div");
+          const isSent = msg.user === username;
+          messageDiv.className = `message ${isSent ? "sent" : "received"}`;
+
+          const bubble = document.createElement("div");
+          bubble.className = "message-bubble";
+
+          if (!isSent) {
+            const userDiv = document.createElement("div");
+            userDiv.className = "message-username";
+            userDiv.textContent = msg.user;
+            bubble.appendChild(userDiv);
+          }
+
+          const textDiv = document.createElement("div");
+          textDiv.textContent = msg.text;
+          bubble.appendChild(textDiv);
+
+          const timeDiv = document.createElement("div");
+          timeDiv.className = "message-time";
+          timeDiv.textContent = msg.time;
+          bubble.appendChild(timeDiv);
+
+          messageDiv.appendChild(bubble);
+          messages.appendChild(messageDiv);
+        }
+
+        messages.scrollTop = messages.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
