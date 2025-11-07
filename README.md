@@ -4,11 +4,11 @@ Chat em tempo real distribuído usando WebSockets, Node.js e Redis.
 
 ## 🚀 Tecnologias
 
-- *Node.js* - Runtime JavaScript
-- *Express* - Framework web
-- *Socket.IO* - Comunicação em tempo real
-- *Redis* - Armazenamento de mensagens
-- *HTML/CSS/JS* - Interface responsiva
+- ***Node.js*** - Runtime JavaScript
+- ***Express*** - Framework web
+- ***Socket.IO*** - Comunicação em tempo real
+- ***Redis*** - Armazenamento de mensagens
+- ***HTML/CSS/JS*** - Interface responsiva
 
 ## 📋 Pré-requisitos
 
@@ -17,37 +17,37 @@ Chat em tempo real distribuído usando WebSockets, Node.js e Redis.
 
 ## 🔧 Instalação
 
-1. Clone o repositório:
+1. **Clone o repositório:**
 bash
 git clone <seu-repositorio>
 cd chat-realtime
 
 
-2. Instale as dependências:
+2. **Instale as dependências:**
 bash
 npm install
 
 
-3. Suba o Redis via Docker:
+3. **Suba o Redis via Docker:**
 docker run -d --name redis -p 6379:6379 redis
 
 
-4. Inicie o Redis:
+4. **Inicie o Redis:**
 bash
 redis-server
 
 
-6. Inicie o servidor:
+6. **Inicie o servidor:**
 bash
 npm start
 node server.js
 
 
-8. Acesse no navegador:
+8. **Acesse no navegador:**
 http://localhost:3000
 
 
-9. Para limpar os dados: 
+9. **Para limpar os dados:** 
 redis-cli del chat:messages
 
 
