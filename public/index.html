@@ -144,16 +144,34 @@
     <h1>ZipZop Cruz</h1>
 
     <div id="messages"></div>
-    <input
-      id="input"
-      type="text"
-      placeholder="Digite sua mensagem..."
-      autofocus
-    />
+    <div style="display: flex; width: 100%; max-width: 800px">
+      <input
+        id="input"
+        type="text"
+        placeholder="Digite sua mensagem..."
+        autofocus
+        style="flex: 1; border-radius: 0 0 0 10px"
+      />
+      <button
+        id="sendBtn"
+        style="
+          padding: 15px 20px;
+          background-color: #007f70;
+          color: white;
+          border: none;
+          border-radius: 0 0 10px 0;
+          cursor: pointer;
+          font-size: 16px;
+        "
+      >
+        Enviar
+      </button>
+    </div>
 
     <script>
       const socket = io();
       const input = document.getElementById("input");
+      const sendBtn = document.getElementById("sendBtn");
       const messages = document.getElementById("messages");
 
       const username = prompt("Digite seu nome:");
@@ -166,8 +184,8 @@
 
       socket.on("message", (msg) => addMessage(msg));
 
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && input.value.trim()) {
+      function sendMessage() {
+        if (input.value.trim()) {
           const msg = {
             user: username,
             text: input.value.trim(),
@@ -176,7 +194,15 @@
           socket.emit("message", msg);
           input.value = "";
         }
+      }
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          sendMessage();
+        }
       });
+
+      sendBtn.addEventListener("click", sendMessage);
 
       function addMessage(msg) {
         if (typeof msg === "string") {
